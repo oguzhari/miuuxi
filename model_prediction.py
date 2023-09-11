@@ -8,6 +8,18 @@ def load_model():
     return joblib.load("model.pkl")
 
 
+def check_is_in_nyc(pic_lat, pic_lon, drop_lat, drop_lon):
+    if (
+        40.477399 <= pic_lat <= 40.917577
+        and 40.477399 <= drop_lat <= 40.917577
+        and -74.259090 <= pic_lon <= -73.700272
+        and -74.259090 <= drop_lon <= -73.700272
+    ):
+        return True
+    else:
+        return False
+
+
 def haversine(pickup_, dropoff_):
     """
     Calculate the great circle distance in kilometers between two points

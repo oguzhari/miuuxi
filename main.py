@@ -7,15 +7,16 @@ import random
 from model_prediction import *
 
 # Session state tanımlama
-if 'current_state' not in st.session_state:
-    st.session_state.current_state = 'get_pickup_location'
+if "current_state" not in st.session_state:
+    st.session_state.current_state = "get_pickup_location"
     st.session_state.pickup_lat = None
     st.session_state.pickup_lon = None
     st.session_state.dropoff_lat = None
     st.session_state.dropoff_lon = None
     st.session_state.distance_error = False
+    st.session_state.out_of_range_error = False
 
-st.write(f'Current state: {st.session_state.current_state}')
+st.write(f"Current state: {st.session_state.current_state}")
 
 # Başlangıç ve bitiş tarihlerini tanımla
 start_date = datetime(2010, 1, 1)
@@ -28,45 +29,75 @@ random_date = start_date + timedelta(days=random_days)
 
 # Uygulama mantığı
 try:
-    if st.session_state.current_state == 'get_pickup_location':
+    if (
+        st.session_state.current_state == "get_pickup_location"
+        or st.session_state.current_state == "get_pickup_location_with_distance_error"
+        or st.session_state.current_state
+        == "get_pickup_location_with_out_of_range_error"
+    ):
         st.title("Alış Noktası Seçiniz")
         st.text(f"Rastgele bir tarih seçildi: {random_date}")
+
         m = fl.Map(tiles="OpenStreetMap", zoom_start=10, location=[40.7128, -74.0060])
         m.add_child(fl.LatLngPopup())
         map_ny = st_folium(m, height=350, width=700)
 
-        if st.session_state.distance_error:
-            st.error("Alış ve varış noktaları arası mesafe 1.5 km'den az olamaz! Lütfen tekrar seçim yapınız.")
-            st.session_state.distance_error = False
+        if st.session_state.current_state == "get_pickup_location_with_distance_error":
+            st.error("Alış ve varış noktaları arası mesafe çok kısa!")
+        if (
+            st.session_state.current_state
+            == "get_pickup_location_with_out_of_range_error"
+        ):
+            st.error("Alış ve varış noktaları NYC dışında!")
 
         if map_ny["last_clicked"]:
             st.session_state.pickup_lat = map_ny["last_clicked"]["lat"]
             st.session_state.pickup_lon = map_ny["last_clicked"]["lng"]
-            st.session_state.current_state = 'get_dropoff_location'
+            st.session_state.current_state = "get_dropoff_location"
             st.experimental_rerun()
 
-    elif st.session_state.current_state == 'get_dropoff_location':
+    elif st.session_state.current_state == "get_dropoff_location":
         st.title("Varış Noktası Seçiniz")
         st.text("Alış noktası seçildi")
         st.text(f"{st.session_state.pickup_lat}, {st.session_state.pickup_lon}")
         st.text(f"Rastgele bir tarih seçildi: {random_date}")
         m = fl.Map(tiles="OpenStreetMap", zoom_start=10, location=[40.7128, -74.0060])
         popup = Popup("Alış", parse_html=True, show=True)
-        fl.Marker([st.session_state.pickup_lat, st.session_state.pickup_lon], popup=popup).add_to(m)
+        fl.Marker(
+            [st.session_state.pickup_lat, st.session_state.pickup_lon], popup=popup
+        ).add_to(m)
         m.add_child(fl.LatLngPopup())
         map_ny = st_folium(m, height=350, width=700)
 
         if map_ny["last_clicked"]:
             st.session_state.dropoff_lat = map_ny["last_clicked"]["lat"]
             st.session_state.dropoff_lon = map_ny["last_clicked"]["lng"]
-            st.session_state.current_state = 'get_passenger_count_and_time'
-            distance = haversine([st.session_state.pickup_lat, st.session_state.pickup_lon],
-                                 [st.session_state.dropoff_lat, st.session_state.dropoff_lon])
+            distance = haversine(
+                [st.session_state.pickup_lat, st.session_state.pickup_lon],
+                [st.session_state.dropoff_lat, st.session_state.dropoff_lon],
+            )
             if distance < 1.5:
-                st.session_state.current_state = 'get_pickup_location'
+                st.session_state.current_state = (
+                    "get_pickup_location_with_distance_error"
+                )
                 st.session_state.distance_error = True
+                st.experimental_rerun()
+            if check_is_in_nyc(
+                st.session_state.pickup_lat,
+                st.session_state.pickup_lon,
+                st.session_state.dropoff_lat,
+                st.session_state.dropoff_lon,
+            ):
+                pass
+            else:
+                st.session_state.current_state = (
+                    "get_pickup_location_with_out_of_range_error"
+                )
+                st.experimental_rerun()
+            st.session_state.current_state = "get_passenger_count_and_time"
             st.experimental_rerun()
-    elif st.session_state.current_state == 'get_passenger_count_and_time':
+
+    elif st.session_state.current_state == "get_passenger_count_and_time":
         # Get Passenger count and hour and minute time
         st.title("Yolcu Sayısı ve Tarih Seçiniz")
 
@@ -79,9 +110,13 @@ try:
         st.text(f"{st.session_state.dropoff_lat}, {st.session_state.dropoff_lon}")
 
         st.text("Hesaplanan Mesafe")
-        st.text(f"{haversine([st.session_state.pickup_lat, st.session_state.pickup_lon],[st.session_state.dropoff_lat, st.session_state.dropoff_lon])} km")
+        st.text(
+            f"{haversine([st.session_state.pickup_lat, st.session_state.pickup_lon],[st.session_state.dropoff_lat, st.session_state.dropoff_lon])} km"
+        )
 
-        passenger_count = st.number_input("Yolcu Sayısı", min_value=1, max_value=10, value=1)
+        passenger_count = st.number_input(
+            "Yolcu Sayısı", min_value=1, max_value=10, value=1
+        )
         # Saat seçiniz
         time_input = st.time_input("Bir saat ve dakika seçin")
 
@@ -94,7 +129,7 @@ try:
         if st.button("Tahminle!"):
             st.text("Velev ki tahmin ediyorum...")
         if st.button("Sıfırla"):
-            st.session_state.current_state = 'get_pickup_location'
+            st.session_state.current_state = "get_pickup_location"
             st.session_state.pickup_lat = None
             st.session_state.pickup_lon = None
             st.session_state.dropoff_lat = None
@@ -105,8 +140,10 @@ try:
 except Exception as e:
     st.write(f"An error occurred: {e}")
 
-st.caption("""
+st.caption(
+    """
                 <p style='text-align: center;'><font size="2">version 0.2</font>
                 </p>
-            """, unsafe_allow_html=True
-               )
+            """,
+    unsafe_allow_html=True,
+)
