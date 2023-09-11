@@ -127,5 +127,5 @@ if __name__ == "__main__":
     )
 
     # 3. Make prediction
-    prediction = make_prediction(data)
-    print(prediction)
+    # prediction = make_prediction(data)
+    print(data)

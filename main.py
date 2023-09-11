@@ -2,7 +2,8 @@ import streamlit as st
 import folium as fl
 from streamlit_folium import st_folium
 from folium import Popup
-from datetime import datetime, timedelta
+from datetime import timedelta
+from datetime import datetime as dt
 import random
 from model_prediction import *
 
@@ -15,16 +16,21 @@ if "current_state" not in st.session_state:
     st.session_state.dropoff_lon = None
     st.session_state.distance_error = False
     st.session_state.out_of_range_error = False
+    st.session_state.random_date = "2010-01-01 00:00:00 UTC"
+    st.session_state.hour = None
 
 st.write(f"Current state: {st.session_state.current_state}")
 
-# Başlangıç ve bitiş tarihlerini tanımla
-start_date = datetime(2010, 1, 1)
-end_date = datetime(2015, 6, 30)
 
-# Rastgele bir tarih seç
-random_days = random.randint(0, (end_date - start_date).days)
-random_date = start_date + timedelta(days=random_days)
+def get_date():
+    # Başlangıç ve bitiş tarihlerini tanımla
+    start_date = datetime(2010, 1, 1)
+    end_date = datetime(2015, 6, 30)
+
+    # Rastgele bir tarih seç
+    random_days = random.randint(0, (end_date - start_date).days)
+    random_date = start_date + timedelta(days=random_days)
+    return random_date
 
 
 # Uygulama mantığı
@@ -35,8 +41,9 @@ try:
         or st.session_state.current_state
         == "get_pickup_location_with_out_of_range_error"
     ):
+        st.session_state.random_date = get_date()
         st.title("Alış Noktası Seçiniz")
-        st.text(f"Rastgele bir tarih seçildi: {random_date}")
+        st.text(f"Rastgele bir tarih seçildi: {st.session_state.random_date}")
 
         m = fl.Map(tiles="OpenStreetMap", zoom_start=10, location=[40.7128, -74.0060])
         m.add_child(fl.LatLngPopup())
@@ -60,7 +67,7 @@ try:
         st.title("Varış Noktası Seçiniz")
         st.text("Alış noktası seçildi")
         st.text(f"{st.session_state.pickup_lat}, {st.session_state.pickup_lon}")
-        st.text(f"Rastgele bir tarih seçildi: {random_date}")
+        st.text(f"Rastgele bir tarih seçildi: {st.session_state.random_date}")
         m = fl.Map(tiles="OpenStreetMap", zoom_start=10, location=[40.7128, -74.0060])
         popup = Popup("Alış", parse_html=True, show=True)
         fl.Marker(
@@ -101,7 +108,7 @@ try:
         # Get Passenger count and hour and minute time
         st.title("Yolcu Sayısı ve Tarih Seçiniz")
 
-        st.text(f"Rastgele bir tarih seçildi: {random_date}")
+        st.text(f"Rastgele bir tarih seçildi: {st.session_state.random_date}")
 
         st.text("Alış noktası seçildi")
         st.text(f"{st.session_state.pickup_lat}, {st.session_state.pickup_lon}")
@@ -122,12 +129,31 @@ try:
 
         # Saat ve dakika bilgilerini ayıkla
         if time_input is not None:
-            hour = time_input.hour
+            st.session_state.hour = time_input.hour
             minute = time_input.minute
-            st.write(f"Seçilen saat: {hour}:{minute}")
+            st.write(f"Seçilen saat: {st.session_state.hour}:{minute}")
 
         if st.button("Tahminle!"):
+            pickup = [st.session_state.pickup_lon, st.session_state.pickup_lat]
+            dropoff = [st.session_state.dropoff_lon, st.session_state.dropoff_lat]
+            passenger_count = passenger_count
+            # Add hour to date
+            st.session_state.random_date = st.session_state.random_date + timedelta(
+                hours=st.session_state.hour
+            )
+
+            # 2. Prepare the data
+            data = prepare_data(
+                pickup,
+                dropoff,
+                passenger_count,
+                st.session_state.random_date,
+            )
             st.text("Velev ki tahmin ediyorum...")
+            st.text(data)
+            prediction = make_prediction(data)
+            st.text(f"Tahmini ücret: {prediction[0]:.2f} $")
+
         if st.button("Sıfırla"):
             st.session_state.current_state = "get_pickup_location"
             st.session_state.pickup_lat = None
