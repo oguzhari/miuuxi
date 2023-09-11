@@ -102,6 +102,12 @@ try:
             st.session_state.distance_error = False
             st.experimental_rerun()
 
-
 except Exception as e:
     st.write(f"An error occurred: {e}")
+
+st.caption("""
+                <p style='text-align: center;'>
+                ver 1.2.0<br/><font size="2">version 0.2</font>
+                </p>
+            """, unsafe_allow_html=True
+               )
