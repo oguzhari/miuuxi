@@ -1,0 +1,4 @@
+folium
+streamlit_folium
+ligtgbm=4.0.0
+joblib

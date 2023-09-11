@@ -101,17 +101,17 @@ def make_prediction(data):
 
 if __name__ == "__main__":
     # 1. Define the input variables
-    pickup_ = [-73.844311, 40.721319]
-    dropoff_ = [-73.84161, 40.712278]
-    passenger_count_ = 1
-    date_ = "2012-04-21 00:00:00 UTC"
+    pickup = [-73.844311, 40.721319]
+    dropoff = [-73.84161, 40.712278]
+    passenger_count = 1
+    date = "2012-04-21 00:00:00 UTC"
 
     # 2. Prepare the data
     data = prepare_data(
-        pickup_,
-        dropoff_,
-        passenger_count_,
-        datetime.strptime(date_, "%Y-%m-%d %H:%M:%S UTC"),
+        pickup,
+        dropoff,
+        passenger_count,
+        datetime.strptime(date, "%Y-%m-%d %H:%M:%S UTC"),
     )
 
     # 3. Make prediction
