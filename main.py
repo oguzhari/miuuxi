@@ -168,7 +168,7 @@ except Exception as e:
 
 st.caption(
     """
-                <p style='text-align: center;'><font size="2">version 0.2</font>
+                <p style='text-align: center;'><font size="2">version 0.3</font>
                 </p>
             """,
     unsafe_allow_html=True,
