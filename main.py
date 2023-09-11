@@ -93,6 +93,14 @@ try:
 
         if st.button("Tahminle!"):
             st.text("Velev ki tahmin ediyorum...")
+        if st.button("Sıfırla"):
+            st.session_state.current_state = 'get_pickup_location'
+            st.session_state.pickup_lat = None
+            st.session_state.pickup_lon = None
+            st.session_state.dropoff_lat = None
+            st.session_state.dropoff_lon = None
+            st.session_state.distance_error = False
+            st.experimental_rerun()
 
 
 except Exception as e:
