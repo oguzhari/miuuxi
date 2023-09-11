@@ -2,3 +2,7 @@ folium
 streamlit_folium
 lightgbm==4.0.0
 joblib
+matplotlib
+shapely
+geopandas
+contextily

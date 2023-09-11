@@ -3,9 +3,9 @@ import folium as fl
 from streamlit_folium import st_folium
 from folium import Popup
 from datetime import timedelta
-from datetime import datetime as dt
 import random
 from model_prediction import *
+from save_map_figures import *
 
 # Session state tanımlama
 if "current_state" not in st.session_state:
@@ -45,9 +45,13 @@ try:
         st.title("Alış Noktası Seçiniz")
         st.text(f"Rastgele bir tarih seçildi: {st.session_state.random_date}")
 
-        m = fl.Map(tiles="OpenStreetMap", zoom_start=10, location=[40.7128, -74.0060])
+        m = fl.Map(
+            tiles="OpenStreetMap",
+            zoom_start=11,
+            location=[40.78910688411592, -73.98452568420909],
+        )
         m.add_child(fl.LatLngPopup())
-        map_ny = st_folium(m, height=350, width=700)
+        map_ny = st_folium(m, height=400, width=700)
 
         if st.session_state.current_state == "get_pickup_location_with_distance_error":
             st.error("Alış ve varış noktaları arası mesafe çok kısa!")
@@ -68,13 +72,17 @@ try:
         st.text("Alış noktası seçildi")
         st.text(f"{st.session_state.pickup_lat}, {st.session_state.pickup_lon}")
         st.text(f"Rastgele bir tarih seçildi: {st.session_state.random_date}")
-        m = fl.Map(tiles="OpenStreetMap", zoom_start=10, location=[40.7128, -74.0060])
+        m = fl.Map(
+            tiles="OpenStreetMap",
+            zoom_start=11,
+            location=[40.78910688411592, -73.98452568420909],
+        )
         popup = Popup("Alış", parse_html=True, show=True)
         fl.Marker(
             [st.session_state.pickup_lat, st.session_state.pickup_lon], popup=popup
         ).add_to(m)
         m.add_child(fl.LatLngPopup())
-        map_ny = st_folium(m, height=350, width=700)
+        map_ny = st_folium(m, height=400, width=700)
 
         if map_ny["last_clicked"]:
             st.session_state.dropoff_lat = map_ny["last_clicked"]["lat"]
@@ -153,6 +161,13 @@ try:
             st.text(data)
             prediction = make_prediction(data)
             st.text(f"Tahmini ücret: {prediction[0]:.2f} $")
+            create_image(
+                st.session_state.pickup_lat,
+                st.session_state.pickup_lon,
+                st.session_state.dropoff_lat,
+                st.session_state.dropoff_lon,
+            )
+            st.image("model.png", width=700)
 
         if st.button("Sıfırla"):
             st.session_state.current_state = "get_pickup_location"
@@ -161,6 +176,9 @@ try:
             st.session_state.dropoff_lat = None
             st.session_state.dropoff_lon = None
             st.session_state.distance_error = False
+            st.session_state.out_of_range_error = False
+            st.session_state.random_date = "2010-01-01 00:00:00 UTC"
+            st.session_state.hour = None
             st.experimental_rerun()
 
 except Exception as e:
