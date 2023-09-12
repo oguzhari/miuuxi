@@ -13,6 +13,19 @@ st.set_page_config(
 )
 
 st.image("images/logo_head.png", use_column_width=True)
+st.markdown(
+    """
+    Vahit NewYorkCity'de çalışan bir taksici! Veri bilimi işleri sarmadıktan sonra kendisini taksiye veren Vahit,
+    Kendisine Uber ve diğer sosyal ağ üzerinden ulaşan birçok müşteriye sahip. Bu müşteriler, nereden 
+    alınıp nereye gidecekleri bilgilerini, kaç kişi olacaklarını ve saat kaçta hareket edeceklerini Vahit'e 
+    bildiriyorlar.
+    
+    Ancak Vahit'in kanına bir kere veri bilimi girmiş, bu teklifleri de kuru kuruya kabul etmek istemiyor ve bir model
+    geliştiriyor. Bu model ile bu yolculuğun yaklaşık ne kadar süreceğini ve burada elde edebileceği geliri hızlıca 
+    tahmin etmek istiyor ve alış noktası seçerek başlıyor...
+    """
+)
+
 
 # Session state tanımlama
 if "current_state" not in st.session_state:
@@ -48,7 +61,7 @@ if (
     or st.session_state.current_state == "get_pickup_location_with_out_of_range_error"
 ):
     st.session_state.random_date = get_date()
-    st.title("Alış Noktası Seçiniz")
+    st.subheader("Alış Noktası Seçiniz")
 
     m = fl.Map(
         tiles="OpenStreetMap",
@@ -70,7 +83,7 @@ if (
         st.experimental_rerun()
 
 elif st.session_state.current_state == "get_dropoff_location":
-    st.title("Varış Noktası Seçiniz")
+    st.subheader("Varış Noktası Seçiniz")
 
     m = fl.Map(
         tiles="OpenStreetMap",
@@ -112,7 +125,7 @@ elif st.session_state.current_state == "get_dropoff_location":
 
 elif st.session_state.current_state == "get_passenger_count_and_time":
     # Get Passenger count and hour and minute time
-    st.title("Yolcu Sayısı ve Tarih Seçiniz")
+    st.subheader("Yolcu Sayısı ve Tarih Seçiniz")
 
     passenger_count = st.number_input(
         "Yolcu Sayısı", min_value=1, max_value=10, value=1
