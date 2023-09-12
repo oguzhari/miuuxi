@@ -5,7 +5,7 @@ from datetime import datetime
 
 # Load the model
 def load_model():
-    return joblib.load("model.pkl")
+    return joblib.load("model/model.pkl")
 
 
 def check_is_in_nyc(pic_lat, pic_lon, drop_lat, drop_lon):

@@ -11,6 +11,14 @@ def create_random_plate():
     return plate
 
 
+def custom_dice_roll():
+    roll = random.uniform(0, 1)  # 0 ile 1 arasında bir sayı üretir
+    if roll < 0.99:
+        return 1
+    else:
+        return 2
+
+
 def create_result_image(
     pickup_lat,
     pickup_lon,
@@ -19,10 +27,18 @@ def create_result_image(
     passenger_count,
     date,
     prediction,
+    distance,
 ):
     # Görselleri oku
     template = Image.open("images/template.png")
-    model = Image.open("images/model.png")
+    # %99'a %1 olasılıklı random
+    zar = custom_dice_roll()
+
+    if zar == 1:
+        model = Image.open("images/model.png")
+    else:
+        model = Image.open("images/easter_egg.png")
+
     if type(date) == str:
         date = datetime.strptime(date, "%Y-%m-%d %H:%M:%S UTC")
 
@@ -99,7 +115,19 @@ def create_result_image(
         anchor="mm",
     )
 
-    plate = create_random_plate()
+    distance = f"Yaklaşık {distance:.2f} km"
+    drawable.text(
+        (515, 1600),
+        distance,
+        fill=(255, 255, 255),
+        font=ImageFont.truetype("fonts/arial.ttf", 35),
+        anchor="mm",
+    )
+
+    if zar == 1:
+        plate = create_random_plate()
+    else:
+        plate = "MVK GOLDEN"
 
     drawable.text(
         (876.8, 1228.7),

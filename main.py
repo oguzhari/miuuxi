@@ -8,6 +8,13 @@ from model_prediction import *
 from save_map_figures import *
 from create_final_image import *
 
+st.set_page_config(
+    page_title="Miuuxy",
+    page_icon=":hatched_chick:",
+    initial_sidebar_state="expanded",
+)
+
+
 # Session state tanımlama
 if "current_state" not in st.session_state:
     st.session_state.current_state = "get_pickup_location"
@@ -20,6 +27,7 @@ if "current_state" not in st.session_state:
     st.session_state.random_date = "2010-01-01 00:00:00 UTC"
     st.session_state.hour = None
     st.session_state.minute = None
+    st.session_state.distance = None
 
 
 def get_date():
@@ -80,11 +88,11 @@ elif st.session_state.current_state == "get_dropoff_location":
     if map_ny["last_clicked"]:
         st.session_state.dropoff_lat = map_ny["last_clicked"]["lat"]
         st.session_state.dropoff_lon = map_ny["last_clicked"]["lng"]
-        distance = haversine(
+        st.session_state.distance = haversine(
             [st.session_state.pickup_lat, st.session_state.pickup_lon],
             [st.session_state.dropoff_lat, st.session_state.dropoff_lon],
         )
-        if distance < 1.5:
+        if st.session_state.distance < 1.5:
             st.session_state.current_state = "get_pickup_location_with_distance_error"
             st.session_state.distance_error = True
             st.experimental_rerun()
@@ -155,9 +163,10 @@ elif st.session_state.current_state == "get_passenger_count_and_time":
                 passenger_count,
                 st.session_state.random_date,
                 prediction,
+                st.session_state.distance,
             )
             status.update(label="Bitti!", state="complete", expanded=False)
-        st.image("images/result.png", width=700)
+        st.image("images/result.png")
 
     if st.button("Sıfırla"):
         st.session_state.current_state = "get_pickup_location"
