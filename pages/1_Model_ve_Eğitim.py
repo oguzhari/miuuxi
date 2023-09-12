@@ -7,15 +7,17 @@ Created on Tue Sep 12 17:15:17 2023
 
 import streamlit as st
 
+st.image("images/logo_head.png", use_column_width=True)
+
 st.title(
     "Taksi Ücret Tahmini Uygulaması: Kullanıcıların Binme ve İnme Lokasyonlarına Dayalı Makine Öğrenmesi Modeli"
 )
 
 st.markdown(
     """
-**Oğuzhan Arı** , **Tuğba Aktaş**, **İ.Ece Titiz**, **Elmira Kaya**
+**Ece Titiz**, **Oğuzhan Arı** , **Tuğba Aktaş**,  **Elmira Kaya**
 
-*Source Code: https://github.com/oguzhari/CD_Proje_Alpha*
+*Source Code: https://github.com/oguzhari/miuuxy*
 
 """
 )
@@ -27,7 +29,8 @@ Bu çalışmada, kullanıcıların seyahat etmek istedikleri yerlerin binme ve i
 seyahat saati ve yolcu sayısı girdikleri kullanılarak makine öğrenmesi algoritmalarıyla tahmini ücreti hesaplamak için 
 bir model oluşturulmuştur.
 Model, Kaggle platformundan alınan yaklaşık 55 milyon satırlık New York City Taxi Fare Prediction 
-veri seti kullanılarak eğitilmiştir. x,y,z algoritmaları kullanılmıştır. ve k r2 score'u elde edilmiştir.
+veri seti kullanılarak eğitilmiştir. RandomForestRegressor ve LightGBM algoritmaları kullanılmıştır, LightGBM ile 
+0.87 r2 score'u elde edilmiştir. Şu an çalışan model, LightGBM'dir.
 
 """
 )
@@ -41,30 +44,41 @@ st.markdown(
     """
 **Konu:** Bu çalışma, coğrafi konum bilgileri, yolcu sayısı ve seyahat saati bilgilerini kullanarak taksi ücreti tahmin etme yöntemlerine odaklanmaktadır.
 
-**Amaç:** Yerel ve küresel ölçekte, coğrafi konum bilgilerinin işlenmesi ve anlamlandırılması giderek 
-daha önemli hale gelmektedir. Bu nedenle, coğrafi verilerle çalışırken iki nokta arasındaki mesafeyi 
-hesaplama yeteneği, coğrafi bilgi sistemleri, seyahat planlaması, yakınlık analizi ve diğer birçok 
-uygulama için temel bir öneme sahiptir. Bu çalışmanın amacı, Haversine formülü gibi popüler coğrafi 
-mesafe hesaplama yöntemlerini incelemek ve bu yöntemlerin pratik uygulamalarını vurgulamaktır.
+**Amaç:** Bu projenin temel amacı, taksi yolcularına daha önceden belirlenmiş koordinatların, 
+yolcu sayısı, saat ve tarih bilgileri gibi değişkenlere dayanarak tahmini taksi ücreti sunarak 
+kullanıcı deneyimini iyileştirmek ve ödeyecekleri taksi ücretini daha öngörülebilir hale getirmektir.
 
 **Önem:** Turizm endüstrisinde rota planlaması, lojistik yönetiminde taşıma maliyetlerinin hesaplanması 
 gibi birçok alanda bu yöntemlere ihtiyaç vardır. Bu çalışma, bu önemli aracın anlaşılmasına ve etkin kullanılmasına 
 katkı sağlamayı amaçlamaktadır.
 
-**Varsayımlar:** Bu çalışma, coğrafi konumların yüzeydeki küresel bir düzlemde modellediği kabulüne dayanmaktadır. 
-Ayrıca, hesaplama yöntemlerinin hesaplamalarının hassaslığı ve doğruluğu, kullanılan 
-coğrafi verilerin kalitesine bağlı olarak değişebilir.
+**Varsayımlar:** Bu proje geliştirilirken, trafik koşullarının sabit olduğu, 
+GPS koordinatlarının doğru ve hassas olduğu, kullanıcıların verdiği başlangıç ve bitiş noktalarının 
+tam ve doğru olduğu, ücret tarifelerinin değişmediği, makine öğrenme modelinin güvenilir tahminler sunduğu,
+kullanıcıların tahminin sadece bir yaklaşım olduğunu bilincinde olduğu, kişisel verilerin güvenliği ve 
+gizliliğinin korunduğu, yerel düzenlemelere ve yasalara uyum sağlandığı varsayımlarına dayalı olarak, 
+kullanıcıların tahmini taksi ücretlerini hesaplamak ve yolculuklarını daha iyi planlamak için bu 
+uygulamayı kullandığı varsayımlarında bulunulmuştur. 
 
 **Sınırlılıklar:** Bu çalışma, sadece belirli coğrafi mesafe hesaplama yöntemlerine odaklanmaktadır ve daha karmaşık coğrafi analizlerin veya çoklu veri kaynaklarının kullanımını ele almamaktadır. Ayrıca, kullanılan coğrafi verilerin kesinliği ve tamamlığı, hesaplamanın doğruluğunu etkileyebilir.
 
-Bu çalışmanın giriş bölümü, çalışmanın konusunu, amacını, önemini, varsayımlarını ve sınırlılıklarını özetlemektedir. Bu bölüm, okuyuculara çalışmanın genel bağlamını ve önemini açıklamak için kullanılır."""
+"""
 )
 
 st.header("Kullanılan Yöntemler")
-
-st.subheader(
-    "Girilen Binme Ve İnme Koordinatlarının Haversine Formülü ile Kilometreye Çevrilmesi"
+st.markdown(
+    """
+    Bu çalışmada toplam 55 milyon satırlık bir veri seti kullanılmıştır. Ön işleme ve Öznitelik Çıkarımı adımlarına
+    bütün veri seti dahil edilmiştir. Bütün verinin temizlenmesi, öznitelik çıkarımı ve model eğitimi için toplam 2 saat
+    57 dakika sürmüştür. Modelin R2 skoru 0.87 olarak ölçülmüştür. Modelin tahmin yapabilmesi için her kullanıcı 
+    uygulamaya girdiğinde, rastgele bir tarih atanmaktadır. Bu tarihin atanma sebebi, modeldeki son verinin 30 Haziran 
+    2015 tarihinde olmasıdır.
+    
+    Daha net ve duyarlı tahminler gerçekleştirebilmesi için böyle bir kısıtlamaya gidilmiştir.
+    """
 )
+
+st.subheader("Girilen Koordinatların Haversine Formülü ile Kilometreye Çevrilmesi")
 
 code = '''def haversine(pickup_, dropoff_):
     """
@@ -87,13 +101,15 @@ st.code(code, language="python")
 st.markdown(
     """
 Haversine formülü, iki koordinat arasındaki mesafenin hassas bir şekilde hesaplamasına olanak sağlamaktadır.
-Coğrafi verileri daha anlamlı ve kullanışlı bir şekilde işleyebilmek adına girilen inme ve binme koordinatları
+Coğrafi verileri daha anlamlı ve kullanışlı bir şekilde işleyebilmek adına girilen koordinatlar
 bu formül ile kilometreye çevrilmiştir. 
 """
 )
+st.image("images/haversine.png", caption="Haversine Hesaplaması")
+
 
 st.header("Veri Önişleme Adımları")
-st.subheader("2.5 Dolar Altı Kayıtların Veri Setinden Çıkarılması")
+st.subheader("2.5$ Altı Kayıtların Veri Setinden Çıkarılması")
 
 code = """def remove_under_2_5_dollars(data):
     eski_boyut = len(data)
@@ -105,7 +121,7 @@ st.code(code, language="python")
 
 st.markdown(
     """
-Tutarı 2.5 doların altında olan kayıtlar New York taksi ücretlerinde minimum ücretin 2.5 dolar olması sebebiyle 
+Tutarı 2.5$ altında olan kayıtlar New York taksi ücretlerinde minimum ücretin 2.5 dolar olması sebebiyle 
 veri setinden çıkarılmıştır. 
 """
 )
@@ -128,7 +144,7 @@ Eksik veri içeren gözlemler veri setinden çıkarılmıştır.
 
 st.subheader("New York Dışında Kalan Koordinatlar İçeren Kayıtların Silinmesi")
 code = """
-#Sınırlar:
+# Sınırlar:
 # Kuzey Enlem: 40.917577
 # Güney Enlem: 40.477399
 # Doğu Boylam: -73.700272
@@ -168,11 +184,10 @@ st.markdown(
     """
 Coğrafi mesafe hesaplamalarında gereksiz tekrarları önlemek ve sonuçların daha anlamlı olmasını sağlamak
 amacıyla biniş ve iniş koordinatları aynı olan kayıtlar veri setinden çıkarılmıştır.
-olmasına yardımcı oldu."
 """
 )
 
-st.subheader("Yolcu sayısı 1den az ve 6dan Büyük Olan Kayıtların Silinmesi")
+st.subheader("Yolcu Sayısı 1'den az ve 6'dan Büyük Olan Kayıtların Silinmesi")
 code = """
 def rmeove_outlier_passenger(data):
     eski_boyut = len(data)
@@ -189,6 +204,66 @@ Bir taksi minimum 1 maximum 6 altı yolcu taşıyabileceğinden bu yolcu aralı�
 """
 )
 
+
+st.subheader("Taksi Ücreti 250den Büyük Olan Verilerin Silinmesi")
+code = """
+def remove_outlier_fare(data):
+    eski_boyut = len(data)
+    data = data.drop(data[data['fare_amount']>250].index, axis = 0)
+    print('Yeni boyut: %d' % len(data))
+    print('Silinen veri sayısı: %d' % (eski_boyut - len(data)))"""
+st.code(code, language="python")
+
+st.markdown(
+    """
+Aykırı değer aralığı olan 250 dolar ve üzeri taksi ücreti içeren kayıtlar veri setinden çıkarılmıştır. 
+"""
+)
+
+
+st.header("Özellik Mühendisliği")
+st.subheader("Yeni Bir Tarife Sütunu Olan Tarife_Yeni Sütununun Oluşturulması")
+code = """
+def add_hour_feature(data):
+    data['hour'] = data['pickup_datetime'].str[11:13].astype(int)
+    data['tarife_yeni'] = None
+
+    # Saate göre 'tarife_yeni' sütununu doldurulması
+    data.loc[(data['hour'] >= 0) & (data['hour'] < 6), 'tarife_yeni'] = 'gece'
+    print('gece tamam')
+    data.loc[(data['hour'] >= 6) & (data['hour'] < 12), 'tarife_yeni'] = 'sabah'
+    print('sabah tamam')
+    data.loc[(data['hour'] >= 12) & (data['hour'] < 17), 'tarife_yeni'] = 'öğlen'
+    print('öğlen tamam')
+    data.loc[(data['hour'] >= 17) & (data['hour'] < 24), 'tarife_yeni'] = 'akşam'
+    print('akşam tamam')"""
+st.code(code, language="python")
+
+st.markdown(
+    """
+Alış tarihi olan pickup_datetime sütunu kullanılarak 24 saatlik zaman dilimi gece, sabah, öğlen ve akşam
+dilimlerine ayrılmıştır. Bu sayede günün hangi bölümünün taksi ücreti tahmininde daha anlamlı bir etkiye sahip olduğu
+belirlenmek istenmiştir.   
+"""
+)
+
+st.subheader("Zamana Dayalı Yeni Feature Çıkarımlarının Yapılması")
+code = """
+def time_features(dataframe):
+    dataframe['hour_of_day'] = dataframe.pickup_datetime.dt.hour
+    dataframe['month'] = dataframe.pickup_datetime.dt.month
+    dataframe["year"] = dataframe.pickup_datetime.dt.year
+    dataframe["weekday"] = dataframe.pickup_datetime.dt.weekday    
+    return dataframe"""
+st.code(code, language="python")
+
+st.markdown(
+    """
+Alış tarihi olan pickup_datetime sütunu kullanılarak yolcunun alındığı saat, ay, yıl ve haftanın günü
+bilgileri birer sütun olarak eklenmiştir. Bu sayede bu özelliklerin taksi ücreti tahmininde nasıl bir etkiye sahip olduğu
+belirlenmek istenmiştir.   
+"""
+)
 
 st.header("Sonuç")
 st.markdown(
@@ -213,18 +288,10 @@ Bu çalışma, seyahat maliyeti tahminindeki potansiyel gelişmeler için bir te
 büyük veri ve yapay zeka konularındaki gelecekteki araştırmalara da ilham kaynağı olabilecektir."""
 )
 
-
-st.header("References")
-st.markdown(
-    """
-1. Li H, Tamang T, Nantasenamat C. Toward insights on antimicrobial selectivity of host defense peptides via machine learning model interpretation. Genomics. 2021;113(6):3851-3863.
-
-2. Schaduangrat N, Malik AA, Nantasenamat C. ERpred: a web server for the prediction of subtype-specific estrogen receptor antagonists. PeerJ. 2021;9:e11716.
-
-3. Schaduangrat N, Lampa S, Simeon S, Gleeson MP, Spjuth O, Nantasenamat C. Towards reproducible computational drug discovery. J Cheminform. 2020;12(1):9. 
-
-4. Li H, Nantasenamat C. Toward insights on determining factors for high activity in antimicrobial peptides via machine learning. PeerJ. 2019;7:e8265.
-
-5. Suvannang N, Preeyanon L, Malik AA, Schaduangrat N, Shoombuatong W, Worachartcheewan A, Tantimongcolwat T, Nantasenamat C. Probing the origin of estrogen receptor alpha inhibition via large-scale QSAR study. RSC Adv. 2018;8(21):11344-11356.
-"""
+st.header("Model")
+st.download_button(
+    label="Modeli İndir",
+    data="model/model.pkl",
+    file_name="NYC_Taxi_Fare_Prediction_Model.pkl",
+    mime="text/plain",
 )

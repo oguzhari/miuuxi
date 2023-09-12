@@ -6,13 +6,13 @@ from model_prediction import *
 from save_map_figures import *
 from create_final_image import *
 
-
 st.set_page_config(
     page_title="Miuuxy",
-    page_icon=":hatched_chick:",
+    page_icon="images/icon.png",
     initial_sidebar_state="expanded",
 )
 
+st.image("images/logo_head.png", use_column_width=True)
 
 # Session state tanımlama
 if "current_state" not in st.session_state:
@@ -117,6 +117,7 @@ elif st.session_state.current_state == "get_passenger_count_and_time":
     passenger_count = st.number_input(
         "Yolcu Sayısı", min_value=1, max_value=10, value=1
     )
+
     # Saat seçiniz
     time_input = st.time_input("Bir saat ve dakika seçin")
 
@@ -146,14 +147,14 @@ elif st.session_state.current_state == "get_passenger_count_and_time":
         with st.status("Tahmin hazırlanıyor!", expanded=True) as status:
             st.write("Veri hazırlanıyor...")
             prediction = make_prediction(data)
-            st.write("Tahmin hazır! Harita görseli oluşturuluyor...")
+            st.write("Veri hazır, velev ki tahminliyorum...")
             create_image(
                 st.session_state.pickup_lat,
                 st.session_state.pickup_lon,
                 st.session_state.dropoff_lat,
                 st.session_state.dropoff_lon,
             )
-            st.write("Harita görseli oluşturuldu! Tahmin görseli oluşturuluyor...")
+            st.write("Galiba tahmniledim, sanırım görsel geliyor...")
             create_result_image(
                 st.session_state.pickup_lat,
                 st.session_state.pickup_lon,
@@ -181,8 +182,12 @@ elif st.session_state.current_state == "get_passenger_count_and_time":
 
 st.caption(
     """
-                <p style='text-align: center;'><font size="2">version 0.5</font>
+                <p style='text-align: center;'><font size="2">version live1.0</font>
+                
                 </p>
             """,
     unsafe_allow_html=True,
 )
+
+with st.columns(9)[4]:
+    st.image("images/icon.png", width=50)
