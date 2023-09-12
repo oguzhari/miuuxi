@@ -25,7 +25,7 @@ def create_image(pickup_lat, pickup_lon, dropoff_lat, dropoff_lon):
     # Gerçek dünya haritasını arka plana ekle
     ctx.add_basemap(ax, zoom=12, source=ctx.providers.CartoDB.Positron)
 
-    labels = ["Alış", "Bırakış"]
+    labels = ["Nereden", "Nereye"]
     for x, y, label in zip(geo_df.geometry.x, geo_df.geometry.y, labels):
         ax.annotate(
             label,
@@ -37,4 +37,4 @@ def create_image(pickup_lat, pickup_lon, dropoff_lat, dropoff_lon):
 
     # Görseli kaydet
     extent = ax.get_window_extent().transformed(fig.dpi_scale_trans.inverted())
-    plt.savefig("model.png", bbox_inches=extent, pad_inches=0)
+    plt.savefig("images/model.png", bbox_inches=extent, pad_inches=0)
