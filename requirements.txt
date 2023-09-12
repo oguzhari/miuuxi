@@ -6,5 +6,4 @@ matplotlib
 shapely
 geopandas
 contextily
-st_aggrid
 plost
