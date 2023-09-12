@@ -167,6 +167,7 @@ elif st.session_state.current_state == "get_passenger_count_and_time":
             )
             status.update(label="Bitti!", state="complete", expanded=False)
         st.image("images/result.png")
+        st.balloons()
 
     if st.button("Sıfırla"):
         st.session_state.current_state = "get_pickup_location"
