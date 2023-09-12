@@ -2,11 +2,10 @@ import streamlit as st
 import folium as fl
 from streamlit_folium import st_folium
 from folium import Popup
-from datetime import timedelta
-import random
 from model_prediction import *
 from save_map_figures import *
 from create_final_image import *
+
 
 st.set_page_config(
     page_title="Miuuxy",
