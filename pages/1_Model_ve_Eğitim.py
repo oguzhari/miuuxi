@@ -1,11 +1,11 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Tue Sep 12 17:15:17 2023
-
-@author: iecet
-"""
-
 import streamlit as st
+
+st.set_page_config(
+    page_title="Neler olmuş ya?",
+    page_icon="images/icon.png",
+    initial_sidebar_state="expanded",
+)
+
 
 st.image("images/logo_head.png", use_column_width=True)
 
