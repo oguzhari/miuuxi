@@ -1,6 +1,6 @@
 import streamlit as st
 
-st.set_page_config(page_title="Hakkımızda", page_icon="images/icon.png")
+st.set_page_config(page_title="Asıl sen kimsin?!", page_icon="images/icon.png")
 st.image("images/merge.png", use_column_width=True)
 
 

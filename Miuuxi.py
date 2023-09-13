@@ -7,7 +7,7 @@ from save_map_figures import *
 from create_final_image import *
 
 st.set_page_config(
-    page_title="Miuuxy",
+    page_title="Miuuxi",
     page_icon="images/icon.png",
     initial_sidebar_state="expanded",
 )
@@ -16,7 +16,7 @@ st.image("images/logo_head.png", use_column_width=True)
 st.markdown(
     """
     Vahit NewYorkCity'de çalışan bir taksici! Veri bilimi işleri sarmadıktan sonra kendisini taksiye veren Vahit,
-    Kendisine Uber ve diğer sosyal ağ üzerinden ulaşan birçok müşteriye sahip. Bu müşteriler, nereden 
+    kendisine Uber ve diğer sosyal ağ üzerinden ulaşan birçok müşteriye sahip. Bu müşteriler, nereden 
     alınıp nereye gidecekleri bilgilerini, kaç kişi olacaklarını ve saat kaçta hareket edeceklerini Vahit'e 
     bildiriyorlar.
     
