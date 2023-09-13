@@ -142,11 +142,10 @@ elif st.session_state.current_state == "get_passenger_count_and_time":
         dropoff = [st.session_state.dropoff_lon, st.session_state.dropoff_lat]
         passenger_count = passenger_count
         # Add hour to date
-        print(st.session_state.random_date)
+
         st.session_state.random_date = st.session_state.random_date + timedelta(
             hours=st.session_state.hour, minutes=st.session_state.minute
         )
-        print(st.session_state.random_date)
 
         # 2. Prepare the data
         data = prepare_data(
@@ -194,7 +193,7 @@ elif st.session_state.current_state == "get_passenger_count_and_time":
 
 st.caption(
     """
-                <p style='text-align: center;'><font size="2">live 1.4</font>
+                <p style='text-align: center;'><font size="2">live 1.4.1</font>
                 
                 </p>
             """,

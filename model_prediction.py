@@ -126,6 +126,3 @@ if __name__ == "__main__":
         datetime.strptime(date, "%Y-%m-%d %H:%M:%S UTC"),
     )
 
-    # 3. Make prediction
-    # prediction = make_prediction(data)
-    print(data)
