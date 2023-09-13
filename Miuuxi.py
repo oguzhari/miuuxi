@@ -21,7 +21,7 @@ st.markdown(
     bildiriyorlar.
     
     Ancak Vahit'in kanına bir kere veri bilimi girmiş, bu teklifleri de kuru kuruya kabul etmek istemiyor ve bir model
-    geliştiriyor. Bu model ile bu yolculuğun yaklaşık ne kadar süreceğini ve burada elde edebileceği geliri hızlıca 
+    geliştiriyor. Bu model ile bu yolculuğun yaklaşık kaç kilometre olacağını ve burada elde edebileceği geliri hızlıca 
     tahmin etmek istiyor ve alış noktası seçerek başlıyor...
     """
 )
