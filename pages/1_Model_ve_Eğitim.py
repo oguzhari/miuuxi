@@ -78,7 +78,7 @@ st.markdown(
     """
 )
 
-st.header("Sıkça Sorulabilecek Sorular")
+st.header("Sordukça Sorulan Sorular")
 with st.expander("İki lokasyon arasındaki kilometreyi nasıl hesapladınız?"):
     st.write(
         """

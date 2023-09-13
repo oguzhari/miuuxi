@@ -127,9 +127,7 @@ elif st.session_state.current_state == "get_passenger_count_and_time":
     # Get Passenger count and hour and minute time
     st.subheader("Yolcu Sayısı ve Tarih Seçiniz")
 
-    passenger_count = st.number_input(
-        "Yolcu Sayısı", min_value=1, max_value=10, value=1
-    )
+    passenger_count = st.selectbox('Yolcu sayısını seçiniz', [1, 2, 3, 4, 5, 6])
 
     # Saat seçiniz
     time_input = st.time_input("Bir saat ve dakika seçin")
@@ -196,7 +194,7 @@ elif st.session_state.current_state == "get_passenger_count_and_time":
 
 st.caption(
     """
-                <p style='text-align: center;'><font size="2">version live1.3.1</font>
+                <p style='text-align: center;'><font size="2">live 1.4</font>
                 
                 </p>
             """,
