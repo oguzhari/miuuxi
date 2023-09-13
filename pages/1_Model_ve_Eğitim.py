@@ -30,7 +30,7 @@ seyahat saati ve yolcu sayısı girdikleri kullanılarak makine öğrenmesi algo
 bir model oluşturulmuştur.
 Model, Kaggle platformundan alınan yaklaşık 55 milyon satırlık New York City Taxi Fare Prediction 
 veri seti kullanılarak eğitilmiştir. RandomForestRegressor ve LightGBM algoritmaları kullanılmıştır, LightGBM ile 
-0.87 r2 score'u elde edilmiştir. Şu an çalışan model, LightGBM'dir.
+0.87 re-kare skoru'u elde edilmiştir. Şu an çalışan model, LightGBM'dir.
 
 """
 )
@@ -70,7 +70,7 @@ st.markdown(
     """
     Bu çalışmada toplam 55 milyon satırlık bir veri seti kullanılmıştır. Ön işleme ve Öznitelik Çıkarımı adımlarına
     bütün veri seti dahil edilmiştir. Bütün verinin temizlenmesi, öznitelik çıkarımı ve model eğitimi için toplam 2 saat
-    57 dakika sürmüştür. Modelin R2 skoru 0.87 olarak ölçülmüştür. Modelin tahmin yapabilmesi için her kullanıcı 
+    57 dakika sürmüştür. Modelin re-kare skoru 0.87 olarak ölçülmüştür. Modelin tahmin yapabilmesi için her kullanıcı 
     uygulamaya girdiğinde, rastgele bir tarih atanmaktadır. Bu tarihin atanma sebebi, modeldeki son verinin 30 Haziran 
     2015 tarihinde olmasıdır.
     
