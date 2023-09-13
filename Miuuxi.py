@@ -196,7 +196,7 @@ elif st.session_state.current_state == "get_passenger_count_and_time":
 
 st.caption(
     """
-                <p style='text-align: center;'><font size="2">version live1.3</font>
+                <p style='text-align: center;'><font size="2">version live1.3.1</font>
                 
                 </p>
             """,
