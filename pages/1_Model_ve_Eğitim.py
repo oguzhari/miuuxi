@@ -101,9 +101,12 @@ with st.expander("Neden tarih rastgele olarak seçiliyor?"):
 with st.expander("Neden sadece New York içerisinde konum seçilebiliyor?"):
     st.write(
         """
-        Tahminlerin New York şehir içi taksi ücretlerini kapsaması amaçlandığından New York dışında inme veya binme
-        koordinatları içeren kayıtlar veri setinden çıkarılmıştır. Tahminlerin New York şehir içi taksi ücretleri 
-        hesaplamanız beklendiğinden, New York dışında konum seçilememektedir.
+        Çünkü öyle istedik. 😌😌
+        
+        Şaka bir yana, tahminlerin New York şehir içi taksi ücretleri hesaplamanız beklendiğinden, New York dışında
+        inme veya binme koordinatları içeren kayıtlar veri setinden çıkarılmıştır.
+        
+        Veri seti, New York dışında bir konum içermediğinden, tahminler de bu aralık içerisinde tutulmaya çalışılıyor.
     """
     )
 
