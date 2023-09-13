@@ -37,7 +37,7 @@ def create_result_image(
     if zar == 1:
         model = Image.open("images/model.png")
     else:
-        model = Image.open("images/easter_egg.png")
+        model = Image.open("images/common_pic.png")
 
     if type(date) == str:
         date = datetime.strptime(date, "%Y-%m-%d %H:%M:%S UTC")

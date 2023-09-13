@@ -59,4 +59,4 @@ with st.columns(9)[4]:
     st.image("images/icon.png", width=50)
 
 if st.button(" "):
-    st.image("images/easter_egg.png")
+    st.image("images/common_pic.png")

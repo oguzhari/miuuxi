@@ -78,6 +78,44 @@ st.markdown(
     """
 )
 
+st.header("Sıkça Sorulabilecek Sorular")
+with st.expander("İki lokasyon arasındaki kilometreyi nasıl hesapladınız?"):
+    st.write(
+        """
+        Haversine Formülü aracılığı ile yaptık. Bu formül, iki nokta arasındaki en kısa mesafeyi hesaplamak için 
+        kullanılır. Bu formül, iki nokta arasındaki en kısa mesafeyi hesaplamak için kullanılır. Detayları Özellik 
+        Mühendisliği bölümünde bulabilirsiniz.
+    """
+    )
+
+with st.expander("Neden tarih rastgele olarak seçiliyor?"):
+    st.write(
+        """
+        Eğitim verimiz 2010 Ocak ile 2015 Haziran arasındaki verileri içermektedir. Bu sebeple, modelin tahmin 
+        yapabilmesi için her kullanıcı uygulamaya girdiğinde, rastgele bir tarih atanmaktadır. Bu tarihin atanma
+        sebebi, modeldeki son verinin 30 Haziran 2015 tarihinde olmasıdır. Daha net ve duyarlı tahminler
+        gerçekleştirebilmesi için böyle bir kısıtlamaya gidilmiştir.
+    """
+    )
+
+with st.expander("Neden sadece New York içerisinde konum seçilebiliyor?"):
+    st.write(
+        """
+        Tahminlerin New York şehir içi taksi ücretlerini kapsaması amaçlandığından New York dışında inme veya binme
+        koordinatları içeren kayıtlar veri setinden çıkarılmıştır. Tahminlerin New York şehir içi taksi ücretleri 
+        hesaplamanız beklendiğinden, New York dışında konum seçilememektedir.
+    """
+    )
+
+with st.expander("Neden sadece 1-6 arası yolcu sayısı seçilebiliyor?"):
+    st.write(
+        """
+        Bir taksi minimum 1 maximum 6 altı yolcu taşıyabileceğinden bu yolcu aralığının dışındaki kayıtlar veri setinden 
+        çıkarılmıştır. Tahminlerin New York şehir içi taksi ücretleri hesaplamanız beklendiğinden, 1-6 arası yolcu
+        sayısı seçilebilmektedir.
+        """
+    )
+
 st.subheader("Girilen Koordinatların Haversine Formülü ile Kilometreye Çevrilmesi")
 
 code = '''def haversine(pickup_, dropoff_):
