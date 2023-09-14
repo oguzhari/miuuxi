@@ -10,21 +10,25 @@ kisiler = [
         "ad": "**Ece Titiz**",
         "aciklama": "Penguyen sever, kurbağa sevmez, veri bilemeyici.",
         "resim_linki": "images/ece_pp.png",
+        "linkedin": "[LinkedIn](https://www.linkedin.com/in/iecetitiz/)",
     },
     {
         "ad": "**Oğuzhan Arı**",
         "aciklama": "Veteran kedi sever, kısmi zamanlı kahve bağımlısı, tam zamansız veri bilimci.",
         "resim_linki": "images/oguzhan_ari_pp.png",
+        "linkedin": "[LinkedIn](https://www.linkedin.com/in/oguzhari/)",
     },
     {
         "ad": "**Tuğba Aktaş**",
         "aciklama": "%99 GYM, %1 Aslan burcu, %100 veri bilimci.",
         "resim_linki": "images/tugba_pp.png",
+        "linkedin": "[LinkedIn](https://www.linkedin.com/in/tugbaaktas/)",
     },
     {
         "ad": "**Elmira Kaya**",
-        "aciklama": "Atanamamış influencer.",
+        "aciklama": "Atanamamış influencer. Atanabilir veri bilimci.",
         "resim_linki": "images/elmira.png",
+        "linkedin": "[LinkedIn](https://www.linkedin.com/in/elmira-kaya/)",
     },
 ]
 
@@ -44,6 +48,7 @@ for kisi in kisiler:
     with col2:
         st.subheader(f"**{kisi['ad']}**")
         st.write(kisi["aciklama"])
+        st.write(kisi["linkedin"])
 
 
 st.caption(
