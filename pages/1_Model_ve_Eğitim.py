@@ -239,9 +239,10 @@ def rmeove_outlier_passenger(data):
     print('Silinen veri sayısı: %d' % (eski_boyut - len(data)))"""
 st.code(code, language="python")
 
+st.image("images/passenger_count.jpeg", caption="Yolcu Sayısı Dağılımı")
 st.markdown(
     """
-Bir taksi minimum 1 maximum 6 altı yolcu taşıyabileceğinden bu yolcu aralığının dışındaki kayıtlar veri setinden çıkarılmıştır. 
+Bir taksi minimum 1, maximum 6 altı yolcu taşıyabileceğinden bu yolcu aralığının dışındaki kayıtlar veri setinden çıkarılmıştır. 
 """
 )
 

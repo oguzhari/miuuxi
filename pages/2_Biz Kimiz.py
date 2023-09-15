@@ -8,7 +8,7 @@ st.image("images/merge.png", use_column_width=True)
 kisiler = [
     {
         "ad": "**Ece Titiz**",
-        "aciklama": "Penguyen sever, kurbağa sevmez, veri bilemeyici.",
+        "aciklama": "Penguyen sever, doğuştan çevreci, veri bilimci.",
         "resim_linki": "images/ece_pp.png",
         "linkedin": "[LinkedIn](https://www.linkedin.com/in/iecetitiz/)",
     },
