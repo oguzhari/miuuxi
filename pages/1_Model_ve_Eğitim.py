@@ -247,7 +247,7 @@ Bir taksi minimum 1, maximum 6 altı yolcu taşıyabileceğinden bu yolcu aralı
 )
 
 
-st.subheader("Taksi Ücreti 250den Büyük Olan Verilerin Silinmesi")
+st.subheader("Taksi Ücreti 250$'dan Büyük Olan Verilerin Silinmesi")
 code = """
 def remove_outlier_fare(data):
     eski_boyut = len(data)
