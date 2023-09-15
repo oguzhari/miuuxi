@@ -11,14 +11,6 @@ def create_random_plate():
     return plate
 
 
-def custom_dice_roll():
-    roll = random.uniform(0, 1)  # 0 ile 1 arasında bir sayı üretir
-    if roll < 0.99:
-        return 1
-    else:
-        return 2
-
-
 def create_result_image(
     pickup_lat,
     pickup_lon,
@@ -28,16 +20,12 @@ def create_result_image(
     date,
     prediction,
     distance,
+    final_image,
 ):
     # Görselleri oku
     template = Image.open("images/template.png")
-    # %99'a %1 olasılıklı random
-    zar = custom_dice_roll()
 
-    if zar == 1:
-        model = Image.open("images/model.png")
-    else:
-        model = Image.open("images/common_pic.png")
+    model = Image.open(final_image)
 
     if type(date) == str:
         date = datetime.strptime(date, "%Y-%m-%d %H:%M:%S UTC")
@@ -124,7 +112,7 @@ def create_result_image(
         anchor="mm",
     )
 
-    if zar == 1:
+    if final_image == "images/result.png":
         plate = create_random_plate()
     else:
         plate = "MVK GOLDEN"

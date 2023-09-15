@@ -40,6 +40,7 @@ if "current_state" not in st.session_state:
     st.session_state.hour = None
     st.session_state.minute = None
     st.session_state.distance = None
+    st.session_state.final_image = "images/model.png"
 
 
 def get_date():
@@ -127,7 +128,7 @@ elif st.session_state.current_state == "get_passenger_count_and_time":
     # Get Passenger count and hour and minute time
     st.subheader("Yolcu Sayısı ve Tarih Seçiniz")
 
-    passenger_count = st.selectbox('Yolcu sayısını seçiniz', [1, 2, 3, 4, 5, 6])
+    passenger_count = st.selectbox("Yolcu sayısını seçiniz", [1, 2, 3, 4, 5, 6])
 
     # Saat seçiniz
     time_input = st.time_input("Bir saat ve dakika seçin")
@@ -174,6 +175,7 @@ elif st.session_state.current_state == "get_passenger_count_and_time":
                 st.session_state.random_date,
                 prediction,
                 st.session_state.distance,
+                st.session_state.final_image,
             )
             status.update(label="Bitti!", state="complete", expanded=False)
         st.image("images/result.png")
@@ -189,6 +191,7 @@ elif st.session_state.current_state == "get_passenger_count_and_time":
         st.session_state.out_of_range_error = False
         st.session_state.random_date = "2010-01-01 00:00:00 UTC"
         st.session_state.hour = None
+        st.session_state.final_image = "images/common_pic.png"
         st.experimental_rerun()
 
 st.caption(
