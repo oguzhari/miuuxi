@@ -112,7 +112,7 @@ def create_result_image(
         anchor="mm",
     )
 
-    if final_image == "images/result.png":
+    if final_image == "images/model.png":
         plate = create_random_plate()
     else:
         plate = "MVK GOLDEN"
